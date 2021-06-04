@@ -45,7 +45,7 @@ class Server:
                         self.broadcastFile(connection, room_id, user_id)
 
                     else:
-                        message_to_send = "<" + str(user_id) + "> " + message.decode()
+                        message_to_send = "[ " + str(user_id) + " ] " + message.decode()
                         self.broadcast(message_to_send, connection, room_id)
 
                 else:
@@ -85,7 +85,7 @@ class Server:
                     except:
                         client.close()
                         self.remove(client, room_id)
-        print("Sent")
+        print("Terkirim")
 
     def broadcast(self, message_to_send, connection, room_id):
         for client in self.rooms[room_id]:

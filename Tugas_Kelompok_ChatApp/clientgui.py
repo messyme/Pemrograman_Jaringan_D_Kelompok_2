@@ -145,13 +145,13 @@ class GUI:
                           relheight=0.03,
                           relwidth=0.15)
 
-        self.sengFileBtn = tk.Button(self.labelFile,
+        self.kirimfileBtn = tk.Button(self.labelFile,
                                      text="Send",
                                      font="Helvetica 10 bold",
                                      width=13,
                                      bg="#ABB2B9",
                                      command=self.sendFile)
-        self.sengFileBtn.place(relx=0.84,
+        self.kirimfileBtn.place(relx=0.84,
                                rely=0.008,
                                relheight=0.03,
                                relwidth=0.15)
@@ -176,7 +176,7 @@ class GUI:
     def sendFile(self):
         self.server.send("FILE".encode())
         time.sleep(0.1)
-        self.server.send(str("client_" + os.path.basename(self.filename)).encode())
+        self.server.send(str("File " + os.path.basename(self.filename)).encode())
         time.sleep(0.1)
         self.server.send(str(os.path.getsize(self.filename)).encode())
         time.sleep(0.1)
@@ -188,9 +188,9 @@ class GUI:
             data = file.read(1024)
         self.textCons.config(state=tk.DISABLED)
         self.textCons.config(state=tk.NORMAL)
-        self.textCons.insert(tk.END, "<You> "
+        self.textCons.insert(tk.END, "[ Anda ] "
                              + str(os.path.basename(self.filename))
-                             + " Sent\n\n")
+                             + " Terkirim\n\n")
         self.textCons.config(state=tk.DISABLED)
         self.textCons.see(tk.END)
 
@@ -223,7 +223,7 @@ class GUI:
 
                     self.textCons.config(state=tk.DISABLED)
                     self.textCons.config(state=tk.NORMAL)
-                    self.textCons.insert(tk.END, "<" + str(send_user) + "> " + file_name + " Received\n\n")
+                    self.textCons.insert(tk.END, " [ " + str(send_user) + " ] " + file_name + " Diterima\n\n")
                     self.textCons.config(state=tk.DISABLED)
                     self.textCons.see(tk.END)
 
@@ -247,12 +247,11 @@ class GUI:
             self.server.send(self.msg.encode())
             self.textCons.config(state=tk.NORMAL)
             self.textCons.insert(tk.END,
-                                 "<You> " + self.msg + "\n\n")
+                                 "[ Anda ] " + self.msg + "\n\n")
 
             self.textCons.config(state=tk.DISABLED)
             self.textCons.see(tk.END)
             break
-
 
 if __name__ == "__main__":
     ip_address = "127.0.0.1"
