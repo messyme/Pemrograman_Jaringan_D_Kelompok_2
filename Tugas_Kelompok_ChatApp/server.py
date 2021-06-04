@@ -32,7 +32,7 @@ class Server:
         if room_id not in self.rooms:
             connection.send("Room berhasil dibuat".encode())
         else:
-            connection.send("Selamat datang di roomchat!".encode())
+            connection.send("Selamat Datang di Chat Room!!".encode())
 
         self.rooms[room_id].append(connection)
 

@@ -10,206 +10,210 @@ import os
 
 class GUI:
 
-    def __init__(self, ip_address, port):
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.connect((ip_address, port))
+    def __init__(frame, ip_address, port):
+        frame.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        frame.server.connect((ip_address, port))
 
-        self.Window = tk.Tk()
-        self.Window.withdraw()
+        frame.Window = tk.Tk()
+        frame.Window.withdraw()
 
-        self.login = tk.Toplevel()
+        frame.login = tk.Toplevel()
 
-        self.login.title("Login")
-        self.login.resizable(width=False, height=False)
-        self.login.configure(width=400, height=350)
+        frame.login.title("Welcome Page")
+        frame.login.resizable(width=False, height=False)
+        frame.login.configure(width=400, height=350)
 
-        self.pls = tk.Label(self.login,
-                            text="Silahkan login",
+        frame.pls = tk.Label(frame.login,
+                            text="Selamat Datang di Chat Room! \n Silakan Login.",
                             justify=tk.CENTER,
                             font="Arial 12 bold")
 
-        self.pls.place(relheight=0.15, relx=0.2, rely=0.07)
 
-        self.userLabelName = tk.Label(self.login, text="Username: ", font="Arial 11")
-        self.userLabelName.place(relheight=0.2, relx=0.1, rely=0.25)
+        frame.pls.place(relheight=0.15, relx=0.2, rely=0.07)
 
-        self.userEntryName = tk.Entry(self.login, font="Arial 12")
-        self.userEntryName.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.30)
-        self.userEntryName.focus()
+        frame.userLabelName = tk.Label(frame.login, text="Nama : ", font="Arial 11")
+        frame.userLabelName.place(relheight=0.2, relx=0.1, rely=0.25)
 
-        self.roomLabelName = tk.Label(self.login, text="Room Id: ", font="Arial 12")
-        self.roomLabelName.place(relheight=0.2, relx=0.1, rely=0.40)
+        frame.userEntryName = tk.Entry(frame.login, font="Arial 12")
+        frame.userEntryName.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.30)
+        frame.userEntryName.focus()
 
-        self.roomEntryName = tk.Entry(self.login, font="Arial 11", show="*")
-        self.roomEntryName.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.45)
+        frame.roomLabelName = tk.Label(frame.login, text="Nomor Ruangan : ", font="Arial 12")
+        frame.roomLabelName.place(relheight=0.2, relx=0.1, rely=0.40)
 
-        self.go = tk.Button(self.login,
+        frame.roomEntryName = tk.Entry(frame.login, font="Arial 11", show="*")
+        frame.roomEntryName.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.45)
+
+        frame.go = tk.Button(frame.login,
                             text="Masuk",
                             font="Arial 12 bold",
-                            command=lambda: self.goAhead(self.userEntryName.get(), self.roomEntryName.get()))
+                            command=lambda: frame.goAhead(frame.userEntryName.get(), frame.roomEntryName.get()))
 
-        self.go.place(relx=0.35, rely=0.62)
+        frame.go.place(relx=0.35, rely=0.62)
 
-        self.Window.mainloop()
+        frame.Window.mainloop()
 
-    def goAhead(self, username, room_id=0):
-        self.name = username
-        self.server.send(str.encode(username))
+    def goAhead(frame, username, room_id=0):
+        frame.name = username
+        frame.server.send(str.encode(username))
         time.sleep(0.1)
-        self.server.send(str.encode(room_id))
+        frame.server.send(str.encode(room_id))
 
-        self.login.destroy()
-        self.layout()
+        frame.login.destroy()
+        frame.layout()
 
-        rcv = threading.Thread(target=self.receive)
+        rcv = threading.Thread(target=frame.receive)
         rcv.start()
 
-    def layout(self):
-        self.Window.deiconify()
-        self.Window.title("Chat Room")
-        self.Window.resizable(width=False, height=False)
-        self.Window.configure(width=470, height=550, bg="#17202A")
-        self.chatBoxHead = tk.Label(self.Window,
+    def layout(frame):
+        frame.Window.deiconify()
+        frame.Window.title("Chat Room Page")
+        frame.Window.resizable(width=False, height=False)
+        frame.Window.configure(width=470, height=550, bg="#4472a0")
+        frame.chatBoxHead = tk.Label(frame.Window,
                                     bg="#365c87",
                                     fg="#EAECEE",
-                                    text=self.name,
-                                    font="Helvetica 11 bold",
+                                    text=frame.name,
+                                    font="Arial 12 bold",
                                     pady=5)
 
-        self.chatBoxHead.place(relwidth=1)
+        frame.chatBoxHead.place(relwidth=1)
 
-        self.line = tk.Label(self.Window, width=450, bg="#ABB2B9")
+        frame.line = tk.Label(frame.Window, width=450, bg="#ABB2B9")
 
-        self.line.place(relwidth=1, rely=0.07, relheight=0.012)
+        frame.line.place(relwidth=1, rely=0.07, relheight=0.012)
 
-        self.textCons = tk.Text(self.Window,
+        frame.textCons = tk.Text(frame.Window,
                                 width=20,
                                 height=2,
                                 bg="#ffffff",
                                 fg="#000000",
-                                font="Helvetica 11",
+                                font="Arial 12",
                                 padx=5,
                                 pady=5)
 
-        self.textCons.place(relheight=0.745, relwidth=1, rely=0.08)
+        frame.textCons.place(relheight=0.745, relwidth=1, rely=0.08)
+       
+        frame.labelBottom = tk.Label(frame.Window, bg="#93b2d1", height=80)
 
-        self.labelBottom = tk.Label(self.Window, bg="#ABB2B9", height=80)
-
-        self.labelBottom.place(relwidth=1,
+        frame.labelBottom.place(relwidth=1,
                                rely=0.8)
 
-        self.entryMsg = tk.Entry(self.labelBottom,
+        frame.entryMsg = tk.Entry(frame.labelBottom,
                                  bg="#ffffff",
                                  fg="#000000",
-                                 font="Helvetica 11")
-        self.entryMsg.place(relwidth=0.74,
+                                 font="Arial 12")
+
+        frame.entryMsg.place(relwidth=0.74,
                             relheight=0.03,
                             rely=0.008,
                             relx=0.011)
-        self.entryMsg.focus()
+        frame.entryMsg.focus()
 
-        self.buttonMsg = tk.Button(self.labelBottom,
-                                   text="Send",
-                                   font="Helvetica 10 bold",
+        frame.buttonMsg = tk.Button(frame.labelBottom,
+                                   text="Kirim",
+                                   font="Arial 11 bold",
                                    width=20,
                                    bg="#ABB2B9",
-                                   command=lambda: self.sendButton(self.entryMsg.get()))
-        self.buttonMsg.place(relx=0.77,
+                                   command=lambda: frame.sendButton(frame.entryMsg.get()))
+
+        frame.buttonMsg.place(relx=0.77,
                              rely=0.008,
                              relheight=0.03,
                              relwidth=0.22)
 
-        self.labelFile = tk.Label(self.Window, bg="#ABB2B9", height=70)
+        frame.labelFile = tk.Label(frame.Window, bg="#5d8cba", height=70)
 
-        self.labelFile.place(relwidth=1,
+        frame.labelFile.place(relwidth=1,
                              rely=0.9)
 
-        self.fileLocation = tk.Label(self.labelFile,
-                                     text="Pilih file",
+        frame.fileLocation = tk.Label(frame.labelFile,
+                                     text="Pilih File",
                                      bg="#FFFFFF",
                                      fg="#d2d4d6",
-                                     font="Helvetica 11")
-        self.fileLocation.place(relwidth=0.65,
+                                     font="Arial 12")
+        frame.fileLocation.place(relwidth=0.65,
                                 relheight=0.03,
                                 rely=0.008,
                                 relx=0.011)
 
-        self.browse = tk.Button(self.labelFile,
-                                text="Browse",
-                                font="Helvetica 10 bold",
+        frame.browse = tk.Button(frame.labelFile,
+                                text="Cari",
+                                font="Arial 11 bold",
                                 width=13,
-                                bg="#ABB2B9",
-                                command=self.browseFile)
-        self.browse.place(relx=0.67,
+                                bg="#b9abab",
+                                command=frame.browseFile)
+        frame.browse.place(relx=0.67,
                           rely=0.008,
                           relheight=0.03,
                           relwidth=0.15)
 
-        self.kirimfileBtn = tk.Button(self.labelFile,
-                                     text="Send",
-                                     font="Helvetica 10 bold",
+        frame.kirimfileBtn = tk.Button(frame.labelFile,
+                                     text="Kirim",
+                                     font="Arial 11 bold",
                                      width=13,
-                                     bg="#ABB2B9",
-                                     command=self.sendFile)
-        self.kirimfileBtn.place(relx=0.84,
+                                     bg="#b9abab",
+                                     command=frame.sendFile)
+
+        frame.kirimfileBtn.place(relx=0.84,
                                rely=0.008,
                                relheight=0.03,
                                relwidth=0.15)
 
-        self.textCons.config(cursor="arrow")
-        scrollbar = tk.Scrollbar(self.textCons)
+        frame.textCons.config(cursor="arrow")
+        scrollbar = tk.Scrollbar(frame.textCons)
         scrollbar.place(relheight=1,
                         relx=0.974)
 
-        scrollbar.config(command=self.textCons.yview)
-        self.textCons.config(state=tk.DISABLED)
+        scrollbar.config(command=frame.textCons.yview)
+        frame.textCons.config(state=tk.DISABLED)
 
-    def browseFile(self):
-        self.filename = filedialog.askopenfilename(initialdir="/",
-                                                   title="Select a file",
+    def browseFile(frame):
+        frame.filename = filedialog.askopenfilename(initialdir="/",
+                                                   title="Pilih file",
                                                    filetypes=(("Text files",
                                                                "*.txt*"),
                                                               ("all files",
                                                                "*.*")))
-        self.fileLocation.configure(text="File Opened: " + self.filename)
+        frame.fileLocation.configure(text="File Dibuka: " + frame.filename)
 
-    def sendFile(self):
-        self.server.send("FILE".encode())
+    def sendFile(frame):
+        frame.server.send("FILE".encode())
         time.sleep(0.1)
-        self.server.send(str("File " + os.path.basename(self.filename)).encode())
+        frame.server.send(str("File " + os.path.basename(frame.filename)).encode())
         time.sleep(0.1)
-        self.server.send(str(os.path.getsize(self.filename)).encode())
+        frame.server.send(str(os.path.getsize(frame.filename)).encode())
         time.sleep(0.1)
 
-        file = open(self.filename, "rb")
+        file = open(frame.filename, "rb")
         data = file.read(1024)
         while data:
-            self.server.send(data)
+            frame.server.send(data)
             data = file.read(1024)
-        self.textCons.config(state=tk.DISABLED)
-        self.textCons.config(state=tk.NORMAL)
-        self.textCons.insert(tk.END, "[ Anda ] "
-                             + str(os.path.basename(self.filename))
+        frame.textCons.config(state=tk.DISABLED)
+        frame.textCons.config(state=tk.NORMAL)
+        frame.textCons.insert(tk.END, "[ Anda ] "
+                             + str(os.path.basename(frame.filename))
                              + " Terkirim\n\n")
-        self.textCons.config(state=tk.DISABLED)
-        self.textCons.see(tk.END)
+        frame.textCons.config(state=tk.DISABLED)
+        frame.textCons.see(tk.END)
 
-    def sendButton(self, msg):
-        self.textCons.config(state=tk.DISABLED)
-        self.msg = msg
-        self.entryMsg.delete(0, tk.END)
-        snd = threading.Thread(target=self.sendMessage)
+    def sendButton(frame, msg):
+        frame.textCons.config(state=tk.DISABLED)
+        frame.msg = msg
+        frame.entryMsg.delete(0, tk.END)
+        snd = threading.Thread(target=frame.sendMessage)
         snd.start()
 
-    def receive(self):
+    def receive(frame):
         while True:
             try:
-                message = self.server.recv(1024).decode()
+                message = frame.server.recv(1024).decode()
 
                 if str(message) == "FILE":
-                    file_name = self.server.recv(1024).decode()
-                    lenOfFile = self.server.recv(1024).decode()
-                    send_user = self.server.recv(1024).decode()
+                    file_name = frame.server.recv(1024).decode()
+                    lenOfFile = frame.server.recv(1024).decode()
+                    send_user = frame.server.recv(1024).decode()
 
                     if os.path.exists(file_name):
                         os.remove(file_name)
@@ -217,40 +221,40 @@ class GUI:
                     total = 0
                     with open(file_name, 'wb') as file:
                         while str(total) != lenOfFile:
-                            data = self.server.recv(1024)
+                            data = frame.server.recv(1024)
                             total = total + len(data)
                             file.write(data)
 
-                    self.textCons.config(state=tk.DISABLED)
-                    self.textCons.config(state=tk.NORMAL)
-                    self.textCons.insert(tk.END, " [ " + str(send_user) + " ] " + file_name + " Diterima\n\n")
-                    self.textCons.config(state=tk.DISABLED)
-                    self.textCons.see(tk.END)
+                    frame.textCons.config(state=tk.DISABLED)
+                    frame.textCons.config(state=tk.NORMAL)
+                    frame.textCons.insert(tk.END, "[ " + str(send_user) + " ] " + file_name + " Diterima\n\n")
+                    frame.textCons.config(state=tk.DISABLED)
+                    frame.textCons.see(tk.END)
 
                 else:
-                    self.textCons.config(state=tk.DISABLED)
-                    self.textCons.config(state=tk.NORMAL)
-                    self.textCons.insert(tk.END,
+                    frame.textCons.config(state=tk.DISABLED)
+                    frame.textCons.config(state=tk.NORMAL)
+                    frame.textCons.insert(tk.END,
                                          message + "\n\n")
 
-                    self.textCons.config(state=tk.DISABLED)
-                    self.textCons.see(tk.END)
+                    frame.textCons.config(state=tk.DISABLED)
+                    frame.textCons.see(tk.END)
 
             except:
-                print("An error occured!")
-                self.server.close()
+                print("Terdapat error!")
+                frame.server.close()
                 break
 
-    def sendMessage(self):
-        self.textCons.config(state=tk.DISABLED)
+    def sendMessage(frame):
+        frame.textCons.config(state=tk.DISABLED)
         while True:
-            self.server.send(self.msg.encode())
-            self.textCons.config(state=tk.NORMAL)
-            self.textCons.insert(tk.END,
-                                 "[ Anda ] " + self.msg + "\n\n")
+            frame.server.send(frame.msg.encode())
+            frame.textCons.config(state=tk.NORMAL)
+            frame.textCons.insert(tk.END,
+                                 "[ Anda ] " + frame.msg + "\n\n")
 
-            self.textCons.config(state=tk.DISABLED)
-            self.textCons.see(tk.END)
+            frame.textCons.config(state=tk.DISABLED)
+            frame.textCons.see(tk.END)
             break
 
 if __name__ == "__main__":
