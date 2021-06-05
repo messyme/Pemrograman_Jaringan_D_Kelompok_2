@@ -74,7 +74,7 @@ class GUI:
                                     bg="#365c87",
                                     fg="#EAECEE",
                                     text=self.name,
-                                    font="Arial 12 bold",
+                                    font="Arial 14 bold",
                                     pady=5)
 
         self.chatBoxHead.place(relwidth=1)
@@ -173,6 +173,8 @@ class GUI:
                                                    title="Pilih file",
                                                    filetypes=(("Text files",
                                                                "*.txt"),
+                                                              ("image files",
+                                                               "*.jpg"),
                                                               ("all files",
                                                                "*.*")))
         self.fileLocation.configure(text="File Dibuka: " + self.filename)
