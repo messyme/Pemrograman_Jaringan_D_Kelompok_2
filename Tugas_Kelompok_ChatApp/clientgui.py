@@ -26,12 +26,12 @@ class GUI:
         self.pls = tk.Label(self.login,
                             text="Selamat Datang di Chat Room! \n Silakan Login.",
                             justify=tk.CENTER,
-                            font="Arial 12 bold")
+                            font="Arial 14 bold")
 
 
         self.pls.place(relheight=0.15, relx=0.2, rely=0.07)
 
-        self.userLabelName = tk.Label(self.login, text="Nama : ", font="Arial 11")
+        self.userLabelName = tk.Label(self.login, text="Nama : ", font="Arial 12")
         self.userLabelName.place(relheight=0.2, relx=0.1, rely=0.25)
 
         self.userEntryName = tk.Entry(self.login, font="Arial 12")
@@ -172,10 +172,10 @@ class GUI:
         self.filename = filedialog.askopenfilename(initialdir="/",
                                                    title="Pilih file",
                                                    filetypes=(("Text files",
-                                                               "*.txt*"),
+                                                               "*.txt"),
                                                               ("all files",
                                                                "*.*")))
-        self.fileLocation.configure(text="File Dipilih " + self.filename)
+        self.fileLocation.configure(text="File Dibuka: " + self.filename)
 
     def sendFile(self):
         self.server.send("FILE".encode())
