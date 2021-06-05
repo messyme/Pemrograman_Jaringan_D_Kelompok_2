@@ -175,7 +175,7 @@ class GUI:
                                                                "*.txt*"),
                                                               ("all files",
                                                                "*.*")))
-        frame.fileLocation.configure(text="File Dibuka: " + frame.filename)
+        frame.fileLocation.configure(text="File Dipilih " + frame.filename)
 
     def sendFile(frame):
         frame.server.send("FILE".encode())
