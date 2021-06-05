@@ -31,31 +31,31 @@ class GUI:
 
         self.pls.place(relheight=0.15, relx=0.2, rely=0.07)
 
-        self.userLabelName = tk.Label(self.login, text="Nama : ", font="Arial 12")
-        self.userLabelName.place(relheight=0.2, relx=0.1, rely=0.25)
+        self.userLabel = tk.Label(self.login, text="Nama : ", font="Arial 12")
+        self.userLabel.place(relheight=0.2, relx=0.1, rely=0.25)
 
-        self.userEntryName = tk.Entry(self.login, font="Arial 12")
-        self.userEntryName.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.30)
-        self.userEntryName.focus()
+        self.userEntry = tk.Entry(self.login, font="Arial 12")
+        self.userEntry.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.30)
+        self.userEntry.focus()
 
-        self.roomLabelName = tk.Label(self.login, text="Nomor Ruangan : ", font="Arial 12")
-        self.roomLabelName.place(relheight=0.2, relx=0.1, rely=0.40)
+        self.roomLabel = tk.Label(self.login, text="Nomor Ruangan : ", font="Arial 12")
+        self.roomLabel.place(relheight=0.2, relx=0.1, rely=0.40)
 
-        self.roomEntryName = tk.Entry(self.login, font="Arial 11", show="*")
-        self.roomEntryName.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.45)
+        self.roomEntry = tk.Entry(self.login, font="Arial 11", show="*")
+        self.roomEntry.place(relwidth=0.4, relheight=0.1, relx=0.35, rely=0.45)
 
         self.go = tk.Button(self.login,
                             text="Masuk",
                             font="Arial 12 bold",
-                            command=lambda: self.goAhead(self.userEntryName.get(), self.roomEntryName.get()))
+                            command=lambda: self.goAhead(self.userEntry.get(), self.roomEntry.get()))
 
         self.go.place(relx=0.35, rely=0.62)
 
         self.Window.mainloop()
 
-    def goAhead(self, username, room_id=0):
-        self.name = username
-        self.server.send(str.encode(username))
+    def goAhead(self, nama, room_id=0):
+        self.name = nama
+        self.server.send(str.encode(nama))
         time.sleep(0.1)
         self.server.send(str.encode(room_id))
 
