@@ -63,7 +63,7 @@ class Server(asyncore.dispatcher):
 			logging.warning("koneksi dari {} diteruskan ke {}" . format(addr, bs))
 			backend = Backend(bs)
 
-			#mendapatkan handler dan socket dari client
+			#mendapatkan handler dan socket dari clients.
 			handler = ProcessTheClient(sock)
 			handler.backend = backend
 
